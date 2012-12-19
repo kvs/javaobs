@@ -352,7 +352,7 @@ module Java
         klass.rubyClass = rclass
       else
         # Arrays
-        newName = 'JavaArray' + klass.name[1..klass.name.length]
+        newName = ('JavaArray' + klass.name[1..klass.name.length]).to_sym
         unless Java.constants.index(newName)
           rclass = Java.module_eval "#{newName} = Class.new(JavaArray)"
         else
