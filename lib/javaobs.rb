@@ -227,6 +227,7 @@ module Java
     include ObjectStream
     
     def readByte; @str.read(1).bytes.first; end
+    def readBytes(len); @str.read(len); end
     def readUShort; @str.read(2).unpack("S<")[0]; end
     def readShort; @str.read(2).unpack("s>")[0]; end
     def readInt; @str.read(4).unpack("i>")[0]; end
