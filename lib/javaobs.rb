@@ -300,9 +300,9 @@ module Java
       context = name.split('.')
       f, = context
       context.shift if f == 'java' or f == 'com'
-      context.map! { |n| n.capitalize! if n !~ /^[A-Z]/o; n }
+      context.map! { |n| n.capitalize! if n !~ /^[A-Z]/o; n.to_sym }
       kname = context.pop
-      
+
       mod = Java
       context.each do |m|
         unless mod.constants.include?(m)
@@ -378,6 +378,8 @@ module Java
 
     # Read a primitive data type.
     def readType(type, arrayType = nil, field = nil)
+      type = type.bytes.first if type.is_a? String
+
       case type
       when PRIM_BYTE
         readByte
