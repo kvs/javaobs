@@ -1,0 +1,3 @@
+# License
+
+This is software is distributed under the same license as Ruby itself. See [http://www.ruby-lang.org/en/LICENSE.txt](http://www.ruby-lang.org/en/LICENSE.txt).
