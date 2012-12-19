@@ -1,9 +1,9 @@
 require 'rubygems'
 require 'rake'
 require 'rake/testtask'
-require 'rake/rdoctask'
+require 'rdoc/task'
 require 'rake/packagetask'
-require 'rake/gempackagetask'
+require 'rubygems/package_task'
 require 'rake/contrib/rubyforgepublisher'
 
 PKG_NAME      = 'javaobs'
@@ -23,7 +23,7 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
-Rake::RDocTask.new do |rdoc|
+RDoc::Task.new do |rdoc|
   rdoc.rdoc_dir = 'doc'
   rdoc.title    = "Java Objects"
   rdoc.main = 'README.rdoc'
@@ -51,14 +51,13 @@ spec = Gem::Specification.new do |s|
 
   s.require_path = 'lib'
 
-  s.files = [ "rakefile", "install.rb" ]
+  s.files = [ "Rakefile", "install.rb" ]
   dist_dirs.each do |dir|
     s.files = s.files + Dir.glob( "#{dir}/**/*" ).delete_if { |item| item.include?( "\.svn" ) }
   end
 end
   
-Rake::GemPackageTask.new(spec) do |p|
-  p.gem_spec = spec
+Gem::PackageTask.new(spec) do |p|
   p.need_tar = true
   p.need_zip = true
 end
