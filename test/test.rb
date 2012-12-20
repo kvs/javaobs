@@ -2,6 +2,7 @@
 $testdir  = File.dirname(__FILE__)
 $: << "#{$testdir}/../lib"
 
+require 'stringio'
 require 'javaobs'
 require 'test/unit'
 
@@ -74,28 +75,19 @@ class JavaTest < Test::Unit::TestCase
   end
 
   def test_write
-        orig = ''
-    objs = nil
-    File.open("t.tmp") do |f|
-      f.binmode
-      
-      orig = f.read
-      f.seek(0)
-      
-      os = Java::ObjectInputStream.new(f)
-      assert os
-      objs = os.readObjects
-      assert objs
-    end
+    orig = File.read('t.tmp')
+    os = Java::ObjectInputStream.new(StringIO.new(orig))
+
+    assert os
+    objs = os.readObjects
+    assert objs
     
-    File.open('t.tmp.new', 'w') do |f|
-      f.binmode
-      
+    File.open('t.tmp.new', 'wb') do |f|
       os = Java::ObjectOutputStream.new(f)
       os.writeObjects(objs)
     end
-    
-    mine = File.open('t.tmp.new').read
+
+    mine = File.read('t.tmp.new')
     assert_equal mine, orig
   end
 end
