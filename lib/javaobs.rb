@@ -26,14 +26,14 @@ require 'delegate'
 #
 #          def _readJavaData(stream)
 #            data = stream.readBlockData
-#            t, = data.unpack("Q")
+#            t, = data.unpack("Q>")
 #            __setobj__(Time.at(t / 1000, (t % 1000) * 1000))
 #          end
 #
 #          # Get the data in the form needed for the Java date serialization.
 #          def _writeJavaData(stream)
 #            t = __getobj__.tv_sec * 1000 + __getobj__.tv_usec / 1000
-#            stream.writeBlockData([t].pack("Q"))
+#            stream.writeBlockData([t].pack("Q>"))
 #          end
 #        end
 #      end
@@ -121,14 +121,14 @@ module Java
     
       def _readJavaData(stream)
         data = stream.readBlockData
-        t, = data.unpack("Q")
+        t, = data.unpack("Q>")
         __setobj__(Time.at(t / 1000, (t % 1000) * 1000))
       end
 
       # Get the data in the form needed for the Java date serialization.
       def _writeJavaData(stream)
         t = __getobj__.tv_sec * 1000 + __getobj__.tv_usec / 1000
-        stream.writeBlockData([t].pack("Q"))
+        stream.writeBlockData([t].pack("Q>"))
       end
     end
     
@@ -230,13 +230,13 @@ module Java
     def readBytes(len); @str.read(len); end
     def readUShort; @str.read(2).unpack("S>")[0]; end
     def readShort; @str.read(2).unpack("s>")[0]; end
-    def readInt; @str.read(4).unpack("i>")[0]; end
+    def readInt; @str.read(4).unpack("l>")[0]; end
     def readDouble; @str.read(8).unpack("G")[0]; end
     def readFloat; @str.read(4).unpack("g")[0]; end
     def readString; @str.read(readShort); end
     def readBool; @str.read(1).bytes.first != 0; end
     def readUID; @str.read(8); end
-    def readLong; @str.read(8).unpack("Q").first; end
+    def readLong; @str.read(8).unpack("q>").first; end
   
     # Read the block data beginning tag and return the size. We can have a long or 
     # short block of data.
@@ -511,15 +511,15 @@ module Java
     include ObjectStream
 
     def writeByte(b); @str.putc b; end
-    def writeUShort(s); @str.write [s].pack("n"); end
-    def writeShort(s); @str.write [s].pack("s"); end
-    def writeInt(i); @str.write [i].pack("i"); end
+    def writeUShort(s); @str.write [s].pack("S>"); end
+    def writeShort(s); @str.write [s].pack("s>"); end
+    def writeInt(i); @str.write [i].pack("l>"); end
     def writeDouble(d); @str.write [d].pack("G"); end
     def writeFloat(f); @str.write [f].pack("g"); end
     def writeString(s); writeShort(s.length); @str.write s; end
     def writeBool(b); writeByte(b ? 1 : 0); end
     def writeUID(u); @str.write u; end
-    def writeLong(l); @str.write [l].pack("Q"); end
+    def writeLong(l); @str.write [l].pack("q>"); end
 
     # Creates object reference handles.
     def nextHandle
