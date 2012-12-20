@@ -185,7 +185,7 @@ module Java
 
   # Container for the Java serialization constants.
   module ObjectStream
-    STREAM_MAGIC = 0xEDAC
+    STREAM_MAGIC = 0xACED
     STREAM_VERSION = 5
     
     TC_NULL      = 0x70
@@ -228,7 +228,7 @@ module Java
     
     def readByte; @str.read(1).bytes.first; end
     def readBytes(len); @str.read(len); end
-    def readUShort; @str.read(2).unpack("S<")[0]; end
+    def readUShort; @str.read(2).unpack("S>")[0]; end
     def readShort; @str.read(2).unpack("s>")[0]; end
     def readInt; @str.read(4).unpack("i>")[0]; end
     def readDouble; @str.read(8).unpack("G")[0]; end
