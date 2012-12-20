@@ -6,13 +6,13 @@ import java.util.Map;
 
 public class Test2 implements Serializable
 {
-    Map map;
-    public void setMap(Map m) { map = m; }
+    Map<String, Integer> map;
+    public void setMap(Map<String, Integer> m) { map = m; }
     
     public static void main(String args[])
     {
         Test2 t = new Test2();
-        t.map = new HashMap();
+        t.map = new HashMap<String, Integer>();
         t.map.put("One", new Integer(1));
         t.map.put("Two", new Integer(2));
         t.map.put("Three", new Integer(3));
