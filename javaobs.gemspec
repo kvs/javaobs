@@ -3,7 +3,7 @@
 dist_dirs = [ "lib", "test", "examples" ]
 
 PKG_NAME      = 'javaobs'
-PKG_VERSION   = '0.3.1'
+PKG_VERSION   = '0.3.2'
 PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
 
 Gem::Specification.new do |s|
