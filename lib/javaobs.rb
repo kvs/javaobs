@@ -84,7 +84,7 @@ module Java
       @flags = flags
       @uid = uid
       @fields = []
-      @arrayType = name[1] if name[0] == ?[
+      @arrayType = name[1].bytes.first if name[0] == ?[
     end
       
     # Add a field to the class.
